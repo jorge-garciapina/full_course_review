@@ -1,0 +1,63 @@
+{
+  "title": "Employee Details Form",
+  "Sections": [
+    {
+      "subtitle": "Basic Information",
+      "fields": [
+        {
+          "type": "text",
+          "required": true,
+          "name": "firstName",
+          "default": null,
+          "label": "First Name",
+          "value": null
+        },
+        {
+          "type": "text",
+          "required": true,
+          "name": "lastName",
+          "default": null,
+          "label": "Last Name",
+          "value": null
+        },
+        {
+          "type": "number",
+          "required": true,
+          "name": "age",
+          "default": null,
+          "label": "Age",
+          "value": null
+        },
+        {
+          "type": "boolean",
+          "required": true,
+          "name": "currentlyEmployed",
+          "default": null,
+          "label": "Currently Employed",
+          "value": "false"
+        }
+      ]
+    },
+    {
+      "subtitle": "Contact Information",
+      "fields": [
+        {
+          "type": "text",
+          "required": true,
+          "name": "email",
+          "default": null,
+          "label": "Email Address",
+          "value": null
+        },
+        {
+          "type": "text",
+          "required": true,
+          "name": "phone",
+          "default": null,
+          "label": "Phone Number",
+          "value": null
+        }
+      ]
+    }
+  ]
+}
