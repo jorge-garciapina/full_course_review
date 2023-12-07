@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Query Selector Test</title>
+    <script>
+      function querySelectorAllEnhanced(selector, root = document) {
+        const matches = [];
+        const [parentSelector, childSelector] = selector.split(" < ");
+        if (!parentSelector || !childSelector) {
+          console.error("Invalid selector: ", selector);
+          return matches;
+        }
+        const potentialParents = Array.from(
+          root.querySelectorAll(parentSelector)
+        );
+        potentialParents.forEach((parent) => {
+          if (parent.querySelector(childSelector)) {
+            matches.push(parent);
+          }
+        });
+        return matches;
+      }
+
+      // Run after the DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        const matchedDivs = querySelectorAllEnhanced(
+          "div.note < input.is-complete[checked]"
+        );
+        console.log(matchedDivs); // Logs the matched div elements
+      });
+    </script>
+  </head>
+  <body>
+    <section>
+      <div id="1" class="note">
+        <input type="checkbox" class="is-complete" checked />
+      </div>
+      <div id="2" class="note"></div>
+      <div id="3" class="note">
+        <input type="checkbox" class="is-complete" checked />
+      </div>
+      <div id="4" class="note"></div>
+      <div id="5" class="note">
+        <input type="checkbox" class="is-complete" checked />
+      </div>
+    </section>
+  </body>
+</html>

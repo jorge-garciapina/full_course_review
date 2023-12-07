@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sierpiński Triangle</title>
+    <style>
+      #triangle-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 86.6%; /* 100% / sqrt(3) */
+        overflow: hidden;
+      }
+      .triangle {
+        --size: 0px;
+        width: var(--size);
+        height: var(--size);
+        background-color: black;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+      }
+      .triangle::after,
+      .triangle::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: var(--size);
+        height: var(--size);
+        background-color: inherit;
+      }
+      .triangle::before {
+        --size: inherit;
+        transform: translate(-50%, 0);
+      }
+      .triangle::after {
+        --size: inherit;
+        transform: translate(50%, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="triangle-container"></div>
+    <label for="division-level">Division Level:</label>
+    <input type="range" id="division-level" min="0" max="5" value="0" />
+
+    <script>
+      // Function to create a single triangle
+      function createTriangle(size) {
+        const triangle = document.createElement("div");
+        triangle.className = "triangle";
+        triangle.style.setProperty("--size", `${size}px`);
+        return triangle;
+      }
+
+      // Function to clear the triangle container
+      function clearTriangleContainer() {
+        const container = document.getElementById("triangle-container");
+        container.innerHTML = "";
+      }
+
+      // Function to generate Sierpiński triangle recursively
+      function generateSierpinskiTriangle(level, parent, size) {
+        if (level === 0) {
+          parent.appendChild(createTriangle(size));
+          return;
+        }
+
+        // Create three child triangles
+        const childSize = size / 2;
+        const childTriangle = createTriangle(childSize);
+        parent.appendChild(childTriangle);
+        generateSierpinskiTriangle(level - 1, childTriangle, childSize);
+
+        const leftChildTriangle = createTriangle(childSize);
+        leftChildTriangle.style.transform = `translate(-50%, 0) scaleY(-1)`;
+        childTriangle.appendChild(leftChildTriangle);
+        generateSierpinskiTriangle(level - 1, leftChildTriangle, childSize);
+
+        const rightChildTriangle = createTriangle(childSize);
+        rightChildTriangle.style.transform = `translate(50%, 0) scaleY(-1)`;
+        childTriangle.appendChild(rightChildTriangle);
+        generateSierpinskiTriangle(level - 1, rightChildTriangle, childSize);
+      }
+
+      // Event listener for the division level slider
+      document
+        .getElementById("division-level")
+        .addEventListener("input", function (event) {
+          const level = parseInt(event.target.value, 10);
+          const container = document.getElementById("triangle-container");
+          clearTriangleContainer(); // Clear the container before generating a new triangle
+          generateSierpinskiTriangle(level, container, container.offsetWidth);
+        });
+
+      // Initial generation with level 0
+      generateSierpinskiTriangle(
+        0,
+        document.getElementById("triangle-container"),
+        document.getElementById("triangle-container").offsetWidth
+      );
+    </script>
+  </body>
+</html>
